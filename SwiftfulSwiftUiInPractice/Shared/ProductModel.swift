@@ -10,7 +10,7 @@ struct ProductData: Codable {
 struct Product: Codable, Identifiable {
     let id: Int
     let title, description: String
-    let category: Category
+    let category: ProductCategory
     let price, discountPercentage, rating: Double
     let stock: Int
     let brand: String?
@@ -19,7 +19,7 @@ struct Product: Codable, Identifiable {
 }
 
 // MARK: - Category
-enum Category: String, Codable {
+enum ProductCategory: String, Codable {
     case beauty = "beauty"
     case fragrances = "fragrances"
     case furniture = "furniture"
