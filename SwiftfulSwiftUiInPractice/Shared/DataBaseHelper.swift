@@ -1,6 +1,7 @@
 import Foundation
 
 struct DataBaseHelper {
+    
     func getProducts() async throws -> [Product] {
         guard let url = URL(string: "https://dummyjson.com/products") else {
             throw URLError(.badURL)

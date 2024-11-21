@@ -13,10 +13,12 @@ struct ContentView: View {
                 ForEach(users) { user in
                     Text(user.firstName)
                 }
+                .foregroundStyle(.spotifyLightGray)
                 
                 ForEach(products) { product in
                     Text(product.title)
                 }
+                .foregroundStyle(.spotifyGreen)
             }
         }
         .padding()
