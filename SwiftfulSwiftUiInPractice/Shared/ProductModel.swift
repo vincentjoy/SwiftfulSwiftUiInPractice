@@ -16,6 +16,10 @@ struct Product: Codable, Identifiable {
     let brand: String?
     let images: [String]
     let thumbnail: String
+    
+    var firstImage: String {
+        images.first ?? Constants.randomImageURL
+    }
 }
 
 // MARK: - Category
