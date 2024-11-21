@@ -6,13 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BF5C10D92CEE24B700479C94 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BF5C10D82CEE24B700479C94 /* SDWebImageSwiftUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		BF5C10C62CEE23A300479C94 /* SwiftfulSwiftUiInPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftfulSwiftUiInPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BF5C10DB2CEE284900479C94 /* Exceptions for "SwiftfulSwiftUiInPractice" folder in "SwiftfulSwiftUiInPractice" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BF5C10C52CEE23A300479C94 /* SwiftfulSwiftUiInPractice */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BF5C10C82CEE23A300479C94 /* SwiftfulSwiftUiInPractice */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BF5C10DB2CEE284900479C94 /* Exceptions for "SwiftfulSwiftUiInPractice" folder in "SwiftfulSwiftUiInPractice" target */,
+			);
 			path = SwiftfulSwiftUiInPractice;
 			sourceTree = "<group>";
 		};
@@ -23,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF5C10D92CEE24B700479C94 /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +83,7 @@
 			);
 			name = SwiftfulSwiftUiInPractice;
 			packageProductDependencies = (
+				BF5C10D82CEE24B700479C94 /* SDWebImageSwiftUI */,
 			);
 			productName = SwiftfulSwiftUiInPractice;
 			productReference = BF5C10C62CEE23A300479C94 /* SwiftfulSwiftUiInPractice.app */;
@@ -94,6 +113,9 @@
 			);
 			mainGroup = BF5C10BD2CEE23A300479C94;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BF5C10D72CEE24B700479C94 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BF5C10C72CEE23A300479C94 /* Products */;
 			projectDirPath = "";
@@ -255,6 +277,8 @@
 				DEVELOPMENT_TEAM = BMZMVWGL7D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwiftfulSwiftUiInPractice/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SwiftUIAction;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -284,6 +308,8 @@
 				DEVELOPMENT_TEAM = BMZMVWGL7D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwiftfulSwiftUiInPractice/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SwiftUIAction;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -324,6 +350,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BF5C10D72CEE24B700479C94 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BF5C10D82CEE24B700479C94 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5C10D72CEE24B700479C94 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BF5C10BE2CEE23A300479C94 /* Project object */;
 }
