@@ -1,21 +1,20 @@
-//
-//  PlayListHeaderCell.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 22/11/24.
-//
-
 import SwiftUI
+import SwiftfulUI
 
 struct PlayListHeaderCell: View {
     
+    var height: CGFloat = 300
     var title: String = "Play List Header"
     var subtitle: String = "Subtitle goes here"
     var imageName: String = Constants.randomImageURL
     var shadowColor: Color = .spotifyBlack.opacity(0.8)
     
     var body: some View {
-        ImageLoaderView(urlString: imageName)
+        Rectangle()
+            .opacity(0)
+            .overlay {
+                ImageLoaderView(urlString: imageName)
+            }
             .overlay(alignment: .bottom, content: {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(subtitle)
@@ -31,7 +30,7 @@ struct PlayListHeaderCell: View {
                     LinearGradient(gradient: Gradient(colors: [shadowColor.opacity(0), shadowColor]), startPoint: .top, endPoint: .bottom)
                 )
             })
-            .frame(height: 300)
+            .asStretchyHeader(startingHeight: height)
     }
 }
 
