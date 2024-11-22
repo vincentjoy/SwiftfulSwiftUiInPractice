@@ -78,7 +78,11 @@ struct SpotifyHomeView: View {
             if let product {
                 SpotifyRecentsCell(
                     imageUrlString: product.firstImage,
-                    title: product.title)
+                    title: product.title
+                )
+                .asButton(.press) {
+                    
+                }
             }
         }
     }
@@ -110,7 +114,11 @@ struct SpotifyHomeView: View {
                         ForEach(row.products) { product in
                             ImageTitleRowCell(imageSize: 120,
                                               imageName: product.firstImage,
-                                              title: product.title)
+                                              title: product.title
+                            )
+                            .asButton(.press) {
+                                
+                            }
                         }
                     }
                     .padding(.horizontal, 16)
