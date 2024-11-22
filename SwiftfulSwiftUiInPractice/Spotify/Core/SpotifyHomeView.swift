@@ -6,6 +6,7 @@ struct SpotifyHomeView: View {
     @State private var currentUser: User?
     @State private var selectedCategory: Category?
     @State private var products: [Product] = []
+    @State private var productRows: [ProductRow] = []
     
     var body: some View {
         ZStack {
@@ -14,15 +15,16 @@ struct SpotifyHomeView: View {
                 LazyVStack(spacing: 1, pinnedViews: [.sectionHeaders]) {
                     Section {
                         VStack(spacing: 16) {
-                            RecentsSection
+                            recentsSection
+                                .padding(.horizontal, 16)
                             if let firstProduct = products.first {
                                 getNewReleaseCell(firstProduct: firstProduct)
+                                    .padding(.horizontal, 16)
                             }
-                            getImageTitleRowCell("Category Title")
+                            listRows
                         }
-                        .padding(.horizontal, 16)
                     } header: {
-                        Header
+                        header
                     }
 
                 }
@@ -36,7 +38,7 @@ struct SpotifyHomeView: View {
         .toolbarVisibility(.hidden, for: .navigationBar)
     }
     
-    private var Header: some View {
+    private var header: some View {
         HStack(spacing: 0) {
             ZStack {
                 if let currentUser {
@@ -71,7 +73,7 @@ struct SpotifyHomeView: View {
         .background(.spotifyBlack)
     }
     
-    private var RecentsSection: some View {
+    private var recentsSection: some View {
         NonLazyVGrid(columns: 2, alignment: .center, spacing: 10, items: products) { product in
             if let product {
                 SpotifyRecentsCell(
@@ -94,21 +96,28 @@ struct SpotifyHomeView: View {
             }
     }
     
-    private func getImageTitleRowCell(_ title: String) -> some View {
-        VStack(spacing: 8) {
-            Text(title)
-                .font(.title)
-                .fontWeight(.semibold)
-                .foregroundStyle(.spotifyWhite)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            ScrollView(.horizontal) {
-                HStack {
-                    ForEach(0..<20) { _ in
-                        ImageTitleRowCell()
+    private var listRows: some View {
+        ForEach(productRows) { row in
+            VStack(spacing: 8) {
+                Text(row.title)
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.spotifyWhite)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                ScrollView(.horizontal) {
+                    HStack(alignment: .top, spacing: 16) {
+                        ForEach(row.products) { product in
+                            ImageTitleRowCell(imageSize: 120,
+                                              imageName: product.firstImage,
+                                              title: product.title)
+                        }
                     }
+                    .padding(.horizontal, 16)
+                    
                 }
+                .scrollIndicators(.hidden)
             }
-            .scrollIndicators(.hidden)
         }
     }
     
@@ -116,6 +125,14 @@ struct SpotifyHomeView: View {
         do {
             currentUser = try await DataBaseHelper().getUsers().first
             products = try await Array(DataBaseHelper().getProducts().prefix(8))
+            
+            var rows: [ProductRow] = []
+            let allBrands = Set(products.map({ $0.brand }))
+            for brand in allBrands {
+                let title: String = brand?.capitalized ?? "NA"
+                rows.append(ProductRow(title: title, products: products))
+                productRows = rows
+            }
         } catch {
             
         }
