@@ -18,13 +18,9 @@ struct SpotifyHomeView: View {
                             if let firstProduct = products.first {
                                 getNewReleaseCell(firstProduct: firstProduct)
                             }
+                            getImageTitleRowCell("Category Title")
                         }
                         .padding(.horizontal, 16)
-                        ForEach(0..<20) { _ in
-                            Rectangle()
-                                .fill(Color.red)
-                                .frame(width: 200, height: 200)
-                        }
                     } header: {
                         Header
                     }
@@ -96,6 +92,24 @@ struct SpotifyHomeView: View {
             } onPlayPressed: {
                 print("11")
             }
+    }
+    
+    private func getImageTitleRowCell(_ title: String) -> some View {
+        VStack(spacing: 8) {
+            Text(title)
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundStyle(.spotifyWhite)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(0..<20) { _ in
+                        ImageTitleRowCell()
+                    }
+                }
+            }
+            .scrollIndicators(.hidden)
+        }
     }
     
     private func getData() async {
