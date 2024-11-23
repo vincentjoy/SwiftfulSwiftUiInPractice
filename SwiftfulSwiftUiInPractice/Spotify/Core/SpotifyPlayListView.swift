@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftfulUI
 
 struct SpotifyPlayListView: View {
     
@@ -19,6 +20,9 @@ struct SpotifyPlayListView: View {
                         subtitle: product.brand ?? "NA",
                         imageName: product.thumbnail
                     )
+                    .readingFrame { frame in
+                        showHeader = frame.maxY < 150
+                    }
                     PlaylistDescriptionFile(
                         descriptionText: product.description,
                         userName: user.firstName,
@@ -53,7 +57,8 @@ struct SpotifyPlayListView: View {
                     .font(.headline)
                     .padding(.vertical, 20)
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
+                    .background(Color.spotifyBlack)
+                    .offset(y: (showHeader ? 0 : -40))
                     .opacity(showHeader ? 1 : 0)
                 Image(systemName: "chevron.left")
                     .font(.title3)
@@ -67,6 +72,7 @@ struct SpotifyPlayListView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .foregroundStyle(.spotifyWhite)
+            .animation(.smooth(duration: 0.2), value: showHeader)
             .frame(maxHeight: .infinity, alignment: .top)
         }
         .task {
