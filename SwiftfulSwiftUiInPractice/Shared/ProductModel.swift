@@ -25,7 +25,7 @@ struct Product: Codable, Identifiable {
         .init(
             id: 1,
             title: "Mock product",
-            description: "Some mock description goes here",
+            description: "This is some mock description that goes here, about the song",
             category: .beauty,
             price: 100,
             discountPercentage: 0,
