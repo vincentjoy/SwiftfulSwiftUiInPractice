@@ -1,8 +1,19 @@
 import SwiftUI
 
 struct SpotifyPlayListView: View {
+    
+    var product: Product = Product.mock
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Color.spotifyBlack.ignoresSafeArea()
+        ScrollView(.vertical) {
+            PlayListHeaderCell(
+                height: 250,
+                title: product.title,
+                subtitle: product.brand ?? "NA",
+                imageName: product.thumbnail
+            )
+        }
     }
 }
 
