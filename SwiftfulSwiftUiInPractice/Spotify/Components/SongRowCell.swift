@@ -39,7 +39,10 @@ struct SongRowCell: View {
                 }
                 
         }
-        .foregroundStyle(.red)
+        .background(Color.black.opacity(0.001))
+        .onTapGesture {
+            onCellPressed?()
+        }
     }
 }
 

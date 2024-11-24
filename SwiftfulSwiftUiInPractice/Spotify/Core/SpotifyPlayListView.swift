@@ -1,8 +1,10 @@
 import SwiftUI
 import SwiftfulUI
+import SwiftfulRouting
 
 struct SpotifyPlayListView: View {
     
+    @Environment(\.router) var router
     var product: Product = .mock
     var user: User = .mock
     
@@ -42,7 +44,7 @@ struct SpotifyPlayListView: View {
                             imageName: product.firstImage,
                             title: product.title,
                             subtitle: product.brand) {
-                                
+                                goToPlaylistView(product: product)
                             } onEllipsisPressed: {
                                 
                             }
@@ -66,7 +68,7 @@ struct SpotifyPlayListView: View {
                     .background(showHeader ? Color.black.opacity(0.001) : Color.spotifyGray.opacity(0.7))
                     .clipShape(Circle())
                     .onTapGesture {
-                        
+                        router.dismissScreen()
                     }
                     .padding(.leading, 16)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -81,6 +83,12 @@ struct SpotifyPlayListView: View {
         .toolbar(.hidden, for: .navigationBar)
     }
     
+    private func goToPlaylistView(product: Product) {
+        router.showScreen(.push) { _ in
+            SpotifyPlayListView(product: product, user: user)
+        }
+    }
+    
     private func getData() async {
         do {
             products = try await DataBaseHelper().getProducts()
@@ -91,5 +99,7 @@ struct SpotifyPlayListView: View {
 }
 
 #Preview {
-    SpotifyPlayListView()
+    RouterView { _ in
+        SpotifyPlayListView()
+    }
 }

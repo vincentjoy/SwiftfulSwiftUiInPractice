@@ -140,6 +140,7 @@ struct SpotifyHomeView: View {
     }
     
     private func getData() async {
+        guard !products.isEmpty else { return }
         do {
             currentUser = try await DataBaseHelper().getUsers().first
             products = try await Array(DataBaseHelper().getProducts().prefix(8))
