@@ -4,12 +4,8 @@ import SwiftfulRouting
 
 struct SpotifyHomeView: View {
     
+    @State var viewModel: SpotifyHomeViewModel
     @Environment(\.router) var router
-    
-    @State private var currentUser: User?
-    @State private var selectedCategory: Category?
-    @State private var products: [Product] = []
-    @State private var productRows: [ProductRow] = []
     
     var body: some View {
         ZStack {
@@ -20,7 +16,7 @@ struct SpotifyHomeView: View {
                         VStack(spacing: 16) {
                             recentsSection
                                 .padding(.horizontal, 16)
-                            if let firstProduct = products.first {
+                            if let firstProduct = viewModel.products.first {
                                 getNewReleaseCell(firstProduct: firstProduct)
                                     .padding(.horizontal, 16)
                             }
@@ -44,7 +40,7 @@ struct SpotifyHomeView: View {
     private var header: some View {
         HStack(spacing: 0) {
             ZStack {
-                if let currentUser {
+                if let currentUser = viewModel.currentUser {
                     ImageLoaderView(urlString: currentUser.image)
                         .background(.spotifyWhite)
                         .clipShape(Circle())
@@ -60,10 +56,10 @@ struct SpotifyHomeView: View {
                     ForEach(Category.allCases, id: \.self) { category in
                         SpotifyCategoryCell(
                             title: category.rawValue.capitalized,
-                            isSelected:( category == selectedCategory)
+                            isSelected:( category == viewModel.selectedCategory)
                         )
                         .onTapGesture {
-                            selectedCategory = category
+                            viewModel.selectedCategory = category
                         }
                     }
                 }
@@ -77,7 +73,7 @@ struct SpotifyHomeView: View {
     }
     
     private var recentsSection: some View {
-        NonLazyVGrid(columns: 2, alignment: .center, spacing: 10, items: products) { product in
+        NonLazyVGrid(columns: 2, alignment: .center, spacing: 10, items: viewModel.products) { product in
             if let product {
                 SpotifyRecentsCell(
                     imageUrlString: product.firstImage,
@@ -91,7 +87,7 @@ struct SpotifyHomeView: View {
     }
     
     private func goToPlaylistView(product: Product) {
-        guard let currentUser else { return }
+        guard let currentUser = viewModel.currentUser else { return }
         router.showScreen(.push) { _ in
             SpotifyPlayListView(product: product, user: currentUser)
         }
@@ -111,7 +107,7 @@ struct SpotifyHomeView: View {
     }
     
     private var listRows: some View {
-        ForEach(productRows) { row in
+        ForEach(viewModel.productRows) { row in
             VStack(spacing: 8) {
                 Text(row.title)
                     .font(.title)
@@ -140,17 +136,17 @@ struct SpotifyHomeView: View {
     }
     
     private func getData() async {
-        guard !products.isEmpty else { return }
+        guard viewModel.products.isEmpty else { return }
         do {
-            currentUser = try await DataBaseHelper().getUsers().first
-            products = try await Array(DataBaseHelper().getProducts().prefix(8))
+            viewModel.currentUser = try await DataBaseHelper().getUsers().first
+            viewModel.products = try await Array(DataBaseHelper().getProducts().prefix(8))
             
             var rows: [ProductRow] = []
-            let allBrands = Set(products.map({ $0.brand }))
+            let allBrands = Set(viewModel.products.map({ $0.brand }))
             for brand in allBrands {
                 let title: String = brand?.capitalized ?? "NA"
-                rows.append(ProductRow(title: title, products: products))
-                productRows = rows
+                rows.append(ProductRow(title: title, products: viewModel.products))
+                viewModel.productRows = rows
             }
         } catch {
             
@@ -159,7 +155,7 @@ struct SpotifyHomeView: View {
 }
 
 #Preview {
-    RouterView { _ in
-        SpotifyHomeView()
+    RouterView { router in
+        SpotifyHomeView(viewModel: SpotifyHomeViewModel(router: router))
     }
 }
