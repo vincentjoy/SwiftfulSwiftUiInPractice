@@ -6,7 +6,9 @@ struct BumbleHomeView: View {
             Color.bumbleWhite.ignoresSafeArea()
             VStack(spacing: 8) {
                 header
+                Spacer()
             }
+            .padding(8)
         }
     }
     
