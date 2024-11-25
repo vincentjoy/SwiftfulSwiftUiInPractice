@@ -21,7 +21,7 @@ struct InterestPillView: View {
         .padding(.vertical, 6)
         .padding(.horizontal, 12)
         .foregroundStyle(.bumbleBlack)
-        .backgroundStyle(.bumbleLightYellow)
+        .background(.bumbleLightYellow)
         .cornerRadius(32)
     }
 }

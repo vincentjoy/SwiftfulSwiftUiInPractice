@@ -34,6 +34,14 @@ struct User: Codable, Identifiable {
             UserInterest(iconName: "moon.stars.fill", emoji: nil, text: "Virgo"),
         ]
     }
+    var interests: [UserInterest] {
+        [
+            UserInterest(iconName: nil, emoji: "👟", text: "Running"),
+            UserInterest(iconName: nil, emoji: "🏋️‍♀️", text: "Gym"),
+            UserInterest(iconName: nil, emoji: "🎧", text: "Music"),
+            UserInterest(iconName: nil, emoji: "🍪", text: "Cooking"),
+        ]
+    }
     
     static var mock: User {
         User(
