@@ -16,6 +16,13 @@ struct User: Codable, Identifiable {
     let image: String
     let height, weight: Double
     
+    var work: String {
+        "Apple"
+    }
+    var education: String {
+        "PhD"
+    }
+    
     static var mock: User {
         User(
             id: 1,
