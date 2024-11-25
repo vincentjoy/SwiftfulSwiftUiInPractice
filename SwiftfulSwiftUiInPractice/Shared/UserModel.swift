@@ -26,6 +26,15 @@ struct User: Codable, Identifiable {
         "This is a sentace about me that says who I am and what I like."
     }
     
+    var basics: [UserInterest] {
+        [
+            UserInterest(iconName: "ruler", emoji: nil, text: "\(height)"),
+            UserInterest(iconName: "graduationcap", emoji: nil, text: education),
+            UserInterest(iconName: "wineglass", emoji: nil, text: "Socially"),
+            UserInterest(iconName: "moon.stars.fill", emoji: nil, text: "Virgo"),
+        ]
+    }
+    
     static var mock: User {
         User(
             id: 1,
