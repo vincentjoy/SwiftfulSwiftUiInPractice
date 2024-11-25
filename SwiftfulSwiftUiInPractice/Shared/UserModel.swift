@@ -22,6 +22,9 @@ struct User: Codable, Identifiable {
     var education: String {
         "PhD"
     }
+    var aboutMe: String {
+        "This is a sentace about me that says who I am and what I like."
+    }
     
     static var mock: User {
         User(
