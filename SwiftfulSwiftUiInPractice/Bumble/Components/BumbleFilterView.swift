@@ -33,7 +33,17 @@ struct BumbleFilterView: View {
     }
 }
 
+fileprivate struct BumbleFilterViewPreview: View {
+    
+    var options: [String] = ["Everyone", "Trending", "Hello"]
+    @State private var selection: String = "Hello"
+    
+    var body: some View {
+        BumbleFilterView(options: options, selection: $selection)
+    }
+}
+
 #Preview {
-    BumbleFilterView()
+    BumbleFilterViewPreview()
         .padding()
 }

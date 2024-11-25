@@ -1,11 +1,17 @@
 import SwiftUI
 
 struct BumbleHomeView: View {
+    
+    @State private var filters: [String] = ["Everyone", "Trending"]
+    @AppStorage("bumble_home_filter") private var selectedFilter: String = "Everyone"
+    
     var body: some View {
         ZStack {
             Color.bumbleWhite.ignoresSafeArea()
-            VStack(spacing: 8) {
+            VStack(spacing: 12) {
                 header
+                BumbleFilterView(options: filters, selection: $selectedFilter)
+                    .background(Divider(), alignment: .bottom)
                 Spacer()
             }
             .padding(8)
