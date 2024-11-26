@@ -8,6 +8,7 @@ struct BumbleHomeView: View {
     @State private var allUsers: [User] = []
     @State private var selectedIndex: Int = 0
     @State private var cardOffset: [Int: Bool] = [:] // [UserId: (Direction == Right)]
+    @State private var currentSwipeOffset: CGFloat = 0
     
     var body: some View {
         ZStack {
@@ -35,6 +36,9 @@ struct BumbleHomeView: View {
                     } else {
                         ProgressView()
                     }
+                    
+                    overlaySwipingIndicators
+                        .zIndex(9999)
                 }
                 .frame(maxHeight: .infinity)
                 .animation(.smooth, value: cardOffset)
@@ -89,6 +93,37 @@ struct BumbleHomeView: View {
         .foregroundStyle(.bumbleBlack)
     }
     
+    private var overlaySwipingIndicators: some View {
+        ZStack {
+            Circle()
+                .fill(.bumbleGray.opacity(0.4))
+                .overlay {
+                    Image(systemName: "xmark")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                }
+                .frame(width: 60, height: 60)
+                .scaleEffect(abs(currentSwipeOffset) > 100 ? 1.3 : 1.0)
+                .offset(x: min(-currentSwipeOffset, 150))
+                .offset(x: -100)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Circle()
+                .fill(.bumbleGray.opacity(0.4))
+                .overlay {
+                    Image(systemName: "checkmark")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                }
+                .frame(width: 60, height: 60)
+                .scaleEffect(abs(currentSwipeOffset) > 100 ? 1.3 : 1.0)
+                .offset(x: max(-currentSwipeOffset, -150))
+                .offset(x: 100)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .animation(.smooth, value: currentSwipeOffset)
+    }
+    
     private func userProfileCell(index: Int) -> some View {
         Rectangle()
             .fill(Color.red)
@@ -101,7 +136,7 @@ struct BumbleHomeView: View {
                 rotationMultiplier: 1.05,
                 scaleMultiplier: 0.9,
                 onChanged: { dragOffset in
-                    
+                    currentSwipeOffset = dragOffset.width
                 },
                 onEnded: { dragOffset in
                     if dragOffset.width < -50 {
