@@ -1,9 +1,13 @@
 import SwiftUI
+import SwiftfulUI
 
 struct BumbleHomeView: View {
     
     @State private var filters: [String] = ["Everyone", "Trending"]
     @AppStorage("bumble_home_filter") private var selectedFilter: String = "Everyone"
+    @State private var allUsers: [User] = []
+    @State private var selectedIndex: Int = 0
+    @State private var cardOffset: [Int: Bool] = [:] // [UserId: (Direction == Right)]
     
     var body: some View {
         ZStack {
@@ -12,11 +16,61 @@ struct BumbleHomeView: View {
                 header
                 BumbleFilterView(options: filters, selection: $selectedFilter)
                     .background(Divider(), alignment: .bottom)
-                BumbleCardView()
-                Spacer()
+//                BumbleCardView()
+                ZStack {
+                    if !allUsers.isEmpty {
+                        ForEach(Array(allUsers.enumerated()), id: \.offset) { (index, user) in
+                            
+                            let isPrevious = (selectedIndex-1 == index)
+                            let isCurrent = (selectedIndex == index)
+                            let isNext = (selectedIndex+1 == index)
+                            
+                            if isPrevious || isCurrent || isNext {
+                                let offsetValue = cardOffset[user.id]
+                                Rectangle()
+                                    .fill(Color.red)
+                                    .overlay {
+                                        Text("\(index)")
+                                    }
+                                    .withDragGesture(
+                                        .horizontal,
+                                        resets: true,
+                                        rotationMultiplier: 1.05,
+                                        scaleMultiplier: 0.9,
+                                        onChanged: { dragOffset in
+                                            
+                                        },
+                                        onEnded: { dragOffset in
+                                            if dragOffset.width < -50 {
+                                                userDidSelect(index: index, isLike: false)
+                                            } else if dragOffset.width > 50 {
+                                                userDidSelect(index: index, isLike: true)
+                                            }
+                                        }
+                                    )
+                                    .zIndex(Double(allUsers.count - index))
+                                    .offset(x: offsetValue == nil ? 0 : offsetValue == true ? 900 : -900)
+                            }
+                        }
+                    } else {
+                        ProgressView()
+                    }
+                }
+                .frame(maxHeight: .infinity)
+                .animation(.smooth, value: cardOffset)
             }
             .padding(8)
         }
+        .task {
+            await getData()
+        }
+        .toolbar(.hidden, for: .navigationBar)
+    }
+    
+    private func userDidSelect(index: Int, isLike: Bool) {
+        let currentUser = allUsers[index]
+        cardOffset[currentUser.id] = isLike
+        selectedIndex += 1
     }
     
     private var header: some View {
@@ -53,6 +107,13 @@ struct BumbleHomeView: View {
         .font(.title2)
         .fontWeight(.medium)
         .foregroundStyle(.bumbleBlack)
+    }
+    
+    func getData() async {
+        guard allUsers.isEmpty else { return }
+        do {
+            allUsers = try await DataBaseHelper().getUsers()
+        } catch {}
     }
 }
 

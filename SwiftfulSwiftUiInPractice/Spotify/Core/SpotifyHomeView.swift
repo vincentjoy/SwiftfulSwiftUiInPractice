@@ -32,7 +32,7 @@ struct SpotifyHomeView: View {
             .clipped()
         }
         .task {
-            await getData()
+            await viewModel.getData()
         }
         .toolbarVisibility(.hidden, for: .navigationBar)
     }
@@ -132,24 +132,6 @@ struct SpotifyHomeView: View {
                 }
                 .scrollIndicators(.hidden)
             }
-        }
-    }
-    
-    private func getData() async {
-        guard viewModel.products.isEmpty else { return }
-        do {
-            viewModel.currentUser = try await DataBaseHelper().getUsers().first
-            viewModel.products = try await Array(DataBaseHelper().getProducts().prefix(8))
-            
-            var rows: [ProductRow] = []
-            let allBrands = Set(viewModel.products.map({ $0.brand }))
-            for brand in allBrands {
-                let title: String = brand?.capitalized ?? "NA"
-                rows.append(ProductRow(title: title, products: viewModel.products))
-                viewModel.productRows = rows
-            }
-        } catch {
-            
         }
     }
 }
