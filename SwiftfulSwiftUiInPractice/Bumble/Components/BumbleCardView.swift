@@ -5,6 +5,11 @@ struct BumbleCardView: View {
     
     var user: User = .mock
     @State private var cardFrame: CGRect = .zero
+    var onSuperLikePressed: (()->Void)?
+    var onXMarkPressed: (()->Void)?
+    var onCheckMarkPressed: (()->Void)?
+    var onSendAComplimentPressed: (()->Void)?
+    var onHideAndReportPressed: (()->Void)?
     
     var body: some View {
         ScrollView(.vertical) {
@@ -33,17 +38,7 @@ struct BumbleCardView: View {
         .scrollIndicators(.hidden)
         .background(.bumbleBackgroundYellow)
         .overlay(alignment: .bottomTrailing, content: {
-            Image(systemName: "hexagon.fill")
-                .foregroundStyle(.bumbleYellow)
-                .font(.system(size: 60))
-                .overlay {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(.bumbleBlack)
-                        .font(.system(size: 30, weight: .medium))
-                }
-                .onTapGesture {
-                    
-                }
+            superLikeButton
                 .padding(32)
         })
         .cornerRadius(32)
@@ -113,6 +108,9 @@ struct BumbleCardView: View {
             .padding([.horizontal, .trailing], 8)
             .background(.bumbleYellow)
             .cornerRadius(32)
+            .onTapGesture {
+                onSendAComplimentPressed?()
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -160,7 +158,7 @@ struct BumbleCardView: View {
                     }
                     .frame(width: 60, height: 60)
                     .onTapGesture {
-                        
+                        onXMarkPressed?()
                     }
                 Spacer(minLength: 0)
                 Circle()
@@ -172,7 +170,7 @@ struct BumbleCardView: View {
                     }
                     .frame(width: 60, height: 60)
                     .onTapGesture {
-                        
+                        onCheckMarkPressed?()
                     }
             }
             Text("Hide and Report")
@@ -181,9 +179,23 @@ struct BumbleCardView: View {
                 .padding(8)
                 .background(Color.black.opacity(0.001))
                 .onTapGesture {
-                    
+                    onHideAndReportPressed?()
                 }
         }
+    }
+    
+    private var superLikeButton: some View {
+        Image(systemName: "hexagon.fill")
+            .foregroundStyle(.bumbleYellow)
+            .font(.system(size: 60))
+            .overlay {
+                Image(systemName: "star.fill")
+                    .foregroundStyle(.bumbleBlack)
+                    .font(.system(size: 30, weight: .medium))
+            }
+            .onTapGesture {
+                onSuperLikePressed?()
+            }
     }
 }
 
