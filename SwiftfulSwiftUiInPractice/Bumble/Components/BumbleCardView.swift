@@ -14,21 +14,38 @@ struct BumbleCardView: View {
                 aboutMeSection
                     .padding(.horizontal, 24)
                     .padding(.vertical, 24)
-                locationSection
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 24)
                 myInterestsSection
                     .padding(.horizontal, 24)
                     .padding(.vertical, 24)
-                
                 ForEach(user.images, id: \.self) { imageUrl in
                     ImageLoaderView(urlString: imageUrl)
                         .frame(height: cardFrame.height)
                 }
+                locationSection
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 24)
+                footerSection
+                    .padding(.top, 60)
+                    .padding(.bottom, 60)
+                    .padding(.horizontal, 32)
             }
         }
         .scrollIndicators(.hidden)
         .background(.bumbleBackgroundYellow)
+        .overlay(alignment: .bottomTrailing, content: {
+            Image(systemName: "hexagon.fill")
+                .foregroundStyle(.bumbleYellow)
+                .font(.system(size: 60))
+                .overlay {
+                    Image(systemName: "star.fill")
+                        .foregroundStyle(.bumbleBlack)
+                        .font(.system(size: 30, weight: .medium))
+                }
+                .onTapGesture {
+                    
+                }
+                .padding(32)
+        })
         .cornerRadius(32)
         .readingFrame { frame in
             cardFrame = frame
@@ -129,6 +146,44 @@ struct BumbleCardView: View {
             InterestPillView(emoji: "🇺🇸", text: "Lives in Newyork, NY")
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private var footerSection: some View {
+        VStack(spacing: 24) {
+            HStack(spacing: 0) {
+                Circle()
+                    .fill(.bumbleYellow)
+                    .overlay {
+                        Image(systemName: "xmark")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                    }
+                    .frame(width: 60, height: 60)
+                    .onTapGesture {
+                        
+                    }
+                Spacer(minLength: 0)
+                Circle()
+                    .fill(.bumbleYellow)
+                    .overlay {
+                        Image(systemName: "checkmark")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                    }
+                    .frame(width: 60, height: 60)
+                    .onTapGesture {
+                        
+                    }
+            }
+            Text("Hide and Report")
+                .font(.headline)
+                .foregroundStyle(.bumbleGray)
+                .padding(8)
+                .background(Color.black.opacity(0.001))
+                .onTapGesture {
+                    
+                }
+        }
     }
 }
 
