@@ -42,6 +42,9 @@ struct User: Codable, Identifiable {
             UserInterest(iconName: nil, emoji: "🍪", text: "Cooking"),
         ]
     }
+    var images: [String] {
+        [Constants.userImage1, Constants.userImage2, Constants.userImage3]
+    }
     
     static var mock: User {
         User(
