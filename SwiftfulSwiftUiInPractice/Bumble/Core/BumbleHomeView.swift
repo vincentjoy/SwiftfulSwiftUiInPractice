@@ -17,7 +17,6 @@ struct BumbleHomeView: View {
                 header
                 BumbleFilterView(options: filters, selection: $selectedFilter)
                     .background(Divider(), alignment: .bottom)
-//                BumbleCardView()
                 ZStack {
                     if !allUsers.isEmpty {
                         ForEach(Array(allUsers.enumerated()), id: \.offset) { (index, user) in
@@ -28,7 +27,7 @@ struct BumbleHomeView: View {
                             
                             if isPrevious || isCurrent || isNext { // Only 3 cells need to be loaded at a time
                                 let offsetValue = cardOffset[user.id]
-                                userProfileCell(index: index)
+                                userProfileCell(user: user, index: index)
                                     .zIndex(Double(allUsers.count - index))
                                     .offset(x: offsetValue == nil ? 0 : offsetValue == true ? 900 : -900)
                             }
@@ -41,6 +40,7 @@ struct BumbleHomeView: View {
                         .zIndex(9999)
                 }
                 .frame(maxHeight: .infinity)
+                .padding(4)
                 .animation(.smooth, value: cardOffset)
             }
             .padding(8)
@@ -124,28 +124,36 @@ struct BumbleHomeView: View {
         .animation(.smooth, value: currentSwipeOffset)
     }
     
-    private func userProfileCell(index: Int) -> some View {
-        Rectangle()
-            .fill(Color.red)
-            .overlay {
-                Text("\(index)")
-            }
-            .withDragGesture(
-                .horizontal,
-                resets: true,
-                rotationMultiplier: 1.05,
-                scaleMultiplier: 0.9,
-                onChanged: { dragOffset in
-                    currentSwipeOffset = dragOffset.width
-                },
-                onEnded: { dragOffset in
-                    if dragOffset.width < -50 {
-                        userDidSelect(index: index, isLike: false)
-                    } else if dragOffset.width > 50 {
-                        userDidSelect(index: index, isLike: true)
-                    }
+    private func userProfileCell(user: User, index: Int) -> some View {
+        BumbleCardView(
+            user: user,
+            onSuperLikePressed: nil,
+            onXMarkPressed: {
+                userDidSelect(index: index, isLike: false)
+            },
+            onCheckMarkPressed: {
+                userDidSelect(index: index, isLike: true)
+            },
+            onSendAComplimentPressed: nil,
+            onHideAndReportPressed: nil
+        )
+        .withDragGesture(
+            .horizontal,
+            minimumDistance: 10,
+            resets: true,
+            rotationMultiplier: 1.05,
+            scaleMultiplier: 0.9,
+            onChanged: { dragOffset in
+                currentSwipeOffset = dragOffset.width
+            },
+            onEnded: { dragOffset in
+                if dragOffset.width < -50 {
+                    userDidSelect(index: index, isLike: false)
+                } else if dragOffset.width > 50 {
+                    userDidSelect(index: index, isLike: true)
                 }
-            )
+            }
+        )
     }
     
     func getData() async {
