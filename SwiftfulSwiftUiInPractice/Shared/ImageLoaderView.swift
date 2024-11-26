@@ -1,10 +1,3 @@
-//
-//  ImageLoaderView.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 21/11/24.
-//
-
 import SwiftUI
 import SDWebImageSwiftUI
 

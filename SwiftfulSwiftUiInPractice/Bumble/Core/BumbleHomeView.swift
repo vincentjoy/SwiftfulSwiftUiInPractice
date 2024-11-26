@@ -25,29 +25,9 @@ struct BumbleHomeView: View {
                             let isCurrent = (selectedIndex == index)
                             let isNext = (selectedIndex+1 == index)
                             
-                            if isPrevious || isCurrent || isNext {
+                            if isPrevious || isCurrent || isNext { // Only 3 cells need to be loaded at a time
                                 let offsetValue = cardOffset[user.id]
-                                Rectangle()
-                                    .fill(Color.red)
-                                    .overlay {
-                                        Text("\(index)")
-                                    }
-                                    .withDragGesture(
-                                        .horizontal,
-                                        resets: true,
-                                        rotationMultiplier: 1.05,
-                                        scaleMultiplier: 0.9,
-                                        onChanged: { dragOffset in
-                                            
-                                        },
-                                        onEnded: { dragOffset in
-                                            if dragOffset.width < -50 {
-                                                userDidSelect(index: index, isLike: false)
-                                            } else if dragOffset.width > 50 {
-                                                userDidSelect(index: index, isLike: true)
-                                            }
-                                        }
-                                    )
+                                userProfileCell(index: index)
                                     .zIndex(Double(allUsers.count - index))
                                     .offset(x: offsetValue == nil ? 0 : offsetValue == true ? 900 : -900)
                             }
@@ -107,6 +87,30 @@ struct BumbleHomeView: View {
         .font(.title2)
         .fontWeight(.medium)
         .foregroundStyle(.bumbleBlack)
+    }
+    
+    private func userProfileCell(index: Int) -> some View {
+        Rectangle()
+            .fill(Color.red)
+            .overlay {
+                Text("\(index)")
+            }
+            .withDragGesture(
+                .horizontal,
+                resets: true,
+                rotationMultiplier: 1.05,
+                scaleMultiplier: 0.9,
+                onChanged: { dragOffset in
+                    
+                },
+                onEnded: { dragOffset in
+                    if dragOffset.width < -50 {
+                        userDidSelect(index: index, isLike: false)
+                    } else if dragOffset.width > 50 {
+                        userDidSelect(index: index, isLike: true)
+                    }
+                }
+            )
     }
     
     func getData() async {

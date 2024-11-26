@@ -1,10 +1,3 @@
-//
-//  ImageTitleRowCell.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 22/11/24.
-//
-
 import SwiftUI
 
 struct ImageTitleRowCell: View {

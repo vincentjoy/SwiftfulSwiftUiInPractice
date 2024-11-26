@@ -1,10 +1,3 @@
-//
-//  InterestPillGridView.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 25/11/24.
-//
-
 import SwiftUI
 import SwiftfulUI
 
