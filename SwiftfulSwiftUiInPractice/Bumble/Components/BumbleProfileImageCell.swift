@@ -26,12 +26,28 @@ struct BumbleProfileImageCell: View {
                 .padding(5)
         }
         .frame(width: 75, height: 75)
-        .overlay {
-            
-        }
+        .overlay (
+            ZStack {
+                if hasNewMessage {
+                    Circle()
+                        .fill(.bumbleWhite)
+                    Circle()
+                        .fill(.bumbleYellow)
+                        .padding(4)
+                }
+            }
+            .frame(width: 24, height: 24)
+            .offset(x: 2, y: 2)
+            , alignment: .bottomTrailing
+        )
     }
 }
 
 #Preview {
-    BumbleProfileImageCell()
+    VStack {
+        BumbleProfileImageCell(imageName: Constants.userImage2)
+        BumbleProfileImageCell(percentageRemaining: 0.75)
+        BumbleProfileImageCell(imageName: Constants.userImage2, percentageRemaining: 1)
+        BumbleProfileImageCell(hasNewMessage: false)
+    }
 }
