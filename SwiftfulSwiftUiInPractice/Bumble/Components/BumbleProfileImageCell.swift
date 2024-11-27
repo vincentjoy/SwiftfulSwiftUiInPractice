@@ -1,10 +1,3 @@
-//
-//  BumbleProfileImageCell.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 27/11/24.
-//
-
 import SwiftUI
 
 struct BumbleProfileImageCell: View {
