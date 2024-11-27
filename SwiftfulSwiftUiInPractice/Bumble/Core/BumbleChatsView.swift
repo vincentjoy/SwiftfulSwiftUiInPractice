@@ -1,10 +1,3 @@
-//
-//  BumbleChatsView.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 27/11/24.
-//
-
 import SwiftUI
 
 struct BumbleChatsView: View {
@@ -17,6 +10,7 @@ struct BumbleChatsView: View {
             VStack(spacing: 0) {
                 header
                     .padding()
+                matchQueSection
                 Spacer()
             }
         }
@@ -34,6 +28,34 @@ struct BumbleChatsView: View {
         }
         .font(.title)
         .fontWeight(.medium)
+    }
+    
+    private var matchQueSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Group {
+                Text("Match Queue")
+                +
+                Text("(\(allUsers.count))")
+                    .foregroundStyle(.bumbleGray)
+            }
+            .padding(.horizontal, 16)
+            
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 16) {
+                    ForEach(allUsers) { user in
+                        BumbleChatPreviewCell(
+                            imageName: user.image,
+                            percentageRemaining: Double.random(in: 0...1),
+                            hasNewMessage: Bool.random()
+                        )
+                    }
+                }
+                .padding(.leading, 16)
+            }
+            .scrollIndicators(.hidden)
+            .frame(height: 100)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     func getData() async {
