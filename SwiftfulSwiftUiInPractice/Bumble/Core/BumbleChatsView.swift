@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BumbleChatsView: View {
     
+    @Environment(\.router) private var router
     @State private var allUsers: [User] = []
     
     var body: some View {
@@ -23,6 +24,9 @@ struct BumbleChatsView: View {
     private var header: some View {
         HStack(spacing: 0) {
             Image(systemName: "line.horizontal.3")
+                .onTapGesture {
+                    router.dismissScreen()
+                }
             Spacer(minLength: 0)
             Image(systemName: "magnifyingglass")
         }
