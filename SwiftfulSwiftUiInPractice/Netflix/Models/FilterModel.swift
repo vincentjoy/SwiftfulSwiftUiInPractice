@@ -1,10 +1,3 @@
-//
-//  FilterModel.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 28/11/24.
-//
-
 import Foundation
 
 struct FilterModel: Hashable, Equatable {

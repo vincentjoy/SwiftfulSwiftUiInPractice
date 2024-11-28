@@ -1,10 +1,3 @@
-//
-//  NetflixFilterBarView.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 28/11/24.
-//
-
 import SwiftUI
 
 struct NetflixFilterBarView: View {
@@ -55,9 +48,25 @@ struct NetflixFilterBarView: View {
     }
 }
 
+fileprivate struct NetflixFilterBarViewPreview: View {
+    
+    @State private var filters = FilterModel.mockArray
+    @State private var selectedFilter: FilterModel?
+    
+    var body: some View {
+        NetflixFilterBarView(
+            filters: filters,
+            selectedFilter: selectedFilter) { newFilter in
+                selectedFilter = newFilter
+            } onXMarkPressed: {
+                selectedFilter = nil
+            }
+    }
+}
+
 #Preview {
     ZStack {
         Color.black.ignoresSafeArea()
-        NetflixFilterBarView()
+        NetflixFilterBarViewPreview()
     }
 }
