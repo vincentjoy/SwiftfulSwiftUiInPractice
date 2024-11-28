@@ -11,7 +11,7 @@ struct BumbleChatsView: View {
                 header
                     .padding()
                 matchQueSection
-                Spacer()
+                recentChatSection
             }
         }
         .task {
@@ -43,8 +43,8 @@ struct BumbleChatsView: View {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 16) {
                     ForEach(allUsers) { user in
-                        BumbleChatPreviewCell(
-                            imageName: user.image,
+                        BumbleProfileImageCell(
+                            imageName: user.images.randomElement() ?? user.image,
                             percentageRemaining: Double.random(in: 0...1),
                             hasNewMessage: Bool.random()
                         )
@@ -54,6 +54,43 @@ struct BumbleChatsView: View {
             }
             .scrollIndicators(.hidden)
             .frame(height: 100)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private var recentChatSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 0) {
+                Group {
+                    Text("Chats")
+                    +
+                    Text(" (Recents)")
+                        .foregroundStyle(.bumbleGray)
+                    Spacer(minLength: 0)
+                    Image(systemName: "line.horizontal.3.decrease")
+                        .font(.title2)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 8)
+            
+            ScrollView(.vertical) {
+                LazyVStack(spacing: 16) {
+                    ForEach(allUsers) { user in
+                        BumbleChatPreviewCell(
+                            imageName: user.images.randomElement() ?? user.image,
+                            percentageRemaining: Double.random(in: 0...1),
+                            hasNewMessage: Bool.random(),
+                            userName: user.firstName,
+                            lastChatMessage: user.aboutMe,
+                            isYourMove: Bool.random()
+                        )
+                    }
+                }
+                .padding(.leading, 16)
+            }
+            .scrollIndicators(.hidden)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
