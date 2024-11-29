@@ -14,6 +14,7 @@ struct NetflixHomeView: View {
     var body: some View {
         ZStack(alignment: .top) {
             Color.netflixBlack.ignoresSafeArea()
+            backgroundGradientLayers
             scrollViewLayers
             fullHeaderWithFilter
         }
@@ -22,6 +23,33 @@ struct NetflixHomeView: View {
             await getData()
         }
         .toolbar(.hidden, for: .navigationBar)
+    }
+    
+    private var backgroundGradientLayers: some View {
+        ZStack {
+            LinearGradient(
+                colors: [
+                    .netflixDarkGray.opacity(1),
+                    .netflixDarkGray.opacity(0)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            
+            LinearGradient(
+                colors: [
+                    .netflixDarkRed.opacity(0.5),
+                    .netflixDarkRed.opacity(0)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+        }
+        .frame(maxHeight: max(10, (400 + (scrollViewOffset * 0.75))))
+        .opacity(scrollViewOffset < -250 ? 0 : 1)
+        .animation(.easeInOut, value: scrollViewOffset)
     }
     
     private var fullHeaderWithFilter: some View {
@@ -114,7 +142,7 @@ struct NetflixHomeView: View {
                 }
             },
             onScrollChanged: { offset in
-                scrollViewOffset = offset.y
+                scrollViewOffset = min(0, offset.y)
             }
         )
     }
