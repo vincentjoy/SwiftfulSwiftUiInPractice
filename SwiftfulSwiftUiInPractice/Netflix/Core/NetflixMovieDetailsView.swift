@@ -22,7 +22,25 @@ struct NetflixMovieDetailsView: View {
                     }
                 )
                 ScrollView(.vertical) {
-                    
+                    VStack(spacing: 8) {
+                        NetflixMovieDetailsCell(
+                            title: product.title,
+                            isNew: true,
+                            yearReleased: "2022",
+                            seasonCount: 6,
+                            hasClosedCaption: true,
+                            isTopTen: 2,
+                            descriptionText: product.description,
+                            castText: "Cast: Bob Odenkirk, Jonathan Banks, Giancarlo Esposito",
+                            onPlayTap: {
+                                
+                            },
+                            onDownloadTap: {
+                                
+                            }
+                        )
+                    }
+                    .padding(8)
                 }
                 .scrollIndicators(.hidden)
             }
