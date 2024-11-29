@@ -14,64 +14,50 @@ struct NetflixHomeView: View {
     var body: some View {
         ZStack(alignment: .top) {
             Color.netflixBlack.ignoresSafeArea()
-            ScrollViewWithOnScrollChanged(
-                .vertical,
-                showsIndicators: false,
-                content: {
-                    VStack(spacing: 8) {
-                        Rectangle()
-                            .opacity(0)
-                            .frame(height: fullHeaderSize.height)
-                        if let heroProduct {
-                            heroCell(heroProduct: heroProduct)
-                        }
-                        categoryRows
-                    }
-                },
-                onScrollChanged: { offset in
-                    scrollViewOffset = offset.y
-                }
-            )
-            
-            VStack(spacing: 0) {
-                headerView
-                    .padding(.horizontal, 16)
-                if scrollViewOffset > -20 {
-                    NetflixFilterBarView(
-                        filters: filters,
-                        selectedFilter: selectedFilter) { newFilter in
-                            selectedFilter = newFilter
-                        } onXMarkPressed: {
-                            selectedFilter = nil
-                        }
-                        .padding(.top, 16)
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                }
-            }
-            .padding(.bottom, 8)
-            .background(
-                ZStack {
-                    if scrollViewOffset < -70 {
-                        Rectangle()
-                            .fill(Color.clear)
-                            .background(.ultraThinMaterial)
-                            .brightness(-0.2)
-                            .ignoresSafeArea()
-                    }
-                }
-            )
-            .animation(.smooth, value: scrollViewOffset)
-            .readingFrame { frame in
-                if fullHeaderSize == .zero {
-                    fullHeaderSize = frame.size
-                }
-            }
+            scrollViewLayers
+            fullHeaderWithFilter
         }
         .foregroundStyle(.netflixWhite)
         .task {
             await getData()
         }
         .toolbar(.hidden, for: .navigationBar)
+    }
+    
+    private var fullHeaderWithFilter: some View {
+        VStack(spacing: 0) {
+            headerView
+                .padding(.horizontal, 16)
+            if scrollViewOffset > -20 {
+                NetflixFilterBarView(
+                    filters: filters,
+                    selectedFilter: selectedFilter) { newFilter in
+                        selectedFilter = newFilter
+                    } onXMarkPressed: {
+                        selectedFilter = nil
+                    }
+                    .padding(.top, 16)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
+        .padding(.bottom, 8)
+        .background(
+            ZStack {
+                if scrollViewOffset < -70 {
+                    Rectangle()
+                        .fill(Color.clear)
+                        .background(.ultraThinMaterial)
+                        .brightness(-0.2)
+                        .ignoresSafeArea()
+                }
+            }
+        )
+        .animation(.smooth, value: scrollViewOffset)
+        .readingFrame { frame in
+            if fullHeaderSize == .zero {
+                fullHeaderSize = frame.size
+            }
+        }
     }
     
     private var headerView: some View {
@@ -110,6 +96,27 @@ struct NetflixHomeView: View {
             }
         )
         .padding(24)
+    }
+    
+    private var scrollViewLayers: some View {
+        ScrollViewWithOnScrollChanged(
+            .vertical,
+            showsIndicators: false,
+            content: {
+                VStack(spacing: 8) {
+                    Rectangle()
+                        .opacity(0)
+                        .frame(height: fullHeaderSize.height)
+                    if let heroProduct {
+                        heroCell(heroProduct: heroProduct)
+                    }
+                    categoryRows
+                }
+            },
+            onScrollChanged: { offset in
+                scrollViewOffset = offset.y
+            }
+        )
     }
     
     private var categoryRows: some View {
