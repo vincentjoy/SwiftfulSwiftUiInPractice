@@ -1,10 +1,3 @@
-//
-//  NetflixDetailsHeaderView.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 29/11/24.
-//
-
 import SwiftUI
 import SwiftfulUI
 
