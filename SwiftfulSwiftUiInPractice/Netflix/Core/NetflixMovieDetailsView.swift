@@ -5,6 +5,7 @@ struct NetflixMovieDetailsView: View {
     var product: Product = .mock
     @State private var progress: Double = 0.2
     @State private var isMyList: Bool = false
+    @State private var products: [Product] = []
     
     var body: some View {
         ZStack {
@@ -55,6 +56,7 @@ struct NetflixMovieDetailsView: View {
                         VStack(alignment: .leading) {
                             Text("More like this")
                                 .font(.headline)
+                            
                         }
                         .foregroundStyle(.netflixWhite)
                     }
@@ -62,6 +64,19 @@ struct NetflixMovieDetailsView: View {
                 }
                 .scrollIndicators(.hidden)
             }
+        }
+        .task {
+            await getData()
+        }
+        .toolbar(.hidden, for: .navigationBar)
+    }
+    
+    private func getData() async {
+        guard products.isEmpty else { return }
+        do {
+            products = try await DataBaseHelper().getProducts()
+        } catch {
+            
         }
     }
 }
