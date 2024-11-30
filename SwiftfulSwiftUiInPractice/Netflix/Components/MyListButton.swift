@@ -1,10 +1,3 @@
-//
-//  MyListButton.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 30/11/24.
-//
-
 import SwiftUI
 
 struct MyListButton: View {
@@ -20,7 +13,7 @@ struct MyListButton: View {
                     .rotationEffect(Angle(degrees: isMyList ? 0 : 180))
                 Image(systemName: "plus")
                     .opacity(isMyList ? 0 : 1)
-                    .rotationEffect(Angle(degrees: isMyList ? 180 : 0))
+                    .rotationEffect(Angle(degrees: isMyList ? -180 : 0))
             }
             .font(.title)
             Text("My List")
