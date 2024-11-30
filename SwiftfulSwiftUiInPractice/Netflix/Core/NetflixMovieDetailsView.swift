@@ -4,6 +4,7 @@ struct NetflixMovieDetailsView: View {
     
     var product: Product = .mock
     @State private var progress: Double = 0.2
+    @State private var isMyList: Bool = false
     
     var body: some View {
         ZStack {
@@ -22,7 +23,7 @@ struct NetflixMovieDetailsView: View {
                     }
                 )
                 ScrollView(.vertical) {
-                    VStack(spacing: 8) {
+                    VStack(alignment: .leading, spacing: 8) {
                         NetflixMovieDetailsCell(
                             title: product.title,
                             isNew: true,
@@ -39,6 +40,23 @@ struct NetflixMovieDetailsView: View {
                                 
                             }
                         )
+                        
+                        HStack(spacing: 32) {
+                            MyListButton(isMyList: isMyList) {
+                                isMyList.toggle()
+                            }
+                            RateButton { selection in
+                                print(selection)
+                            }
+                            ShareButton()
+                        }
+                        .padding(.leading, 16)
+                        
+                        VStack(alignment: .leading) {
+                            Text("More like this")
+                                .font(.headline)
+                        }
+                        .foregroundStyle(.netflixWhite)
                     }
                     .padding(8)
                 }

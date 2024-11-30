@@ -15,9 +15,9 @@ struct ShareButton: View {
         if let url = URL(string: urlString) {
             ShareLink(item: url) {
                 VStack {
-                    Image(systemName: "hand.thumbsup")
+                    Image(systemName: "square.and.arrow.up")
                         .font(.title)
-                    Text("Rate")
+                    Text("Share")
                         .font(.caption)
                         .foregroundStyle(.netflixLightGray)
                 }
