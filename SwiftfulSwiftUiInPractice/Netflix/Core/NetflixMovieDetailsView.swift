@@ -25,40 +25,9 @@ struct NetflixMovieDetailsView: View {
                 )
                 ScrollView(.vertical) {
                     VStack(alignment: .leading, spacing: 8) {
-                        NetflixMovieDetailsCell(
-                            title: product.title,
-                            isNew: true,
-                            yearReleased: "2022",
-                            seasonCount: 6,
-                            hasClosedCaption: true,
-                            isTopTen: 2,
-                            descriptionText: product.description,
-                            castText: "Cast: Bob Odenkirk, Jonathan Banks, Giancarlo Esposito",
-                            onPlayTap: {
-                                
-                            },
-                            onDownloadTap: {
-                                
-                            }
-                        )
-                        
-                        HStack(spacing: 32) {
-                            MyListButton(isMyList: isMyList) {
-                                isMyList.toggle()
-                            }
-                            RateButton { selection in
-                                print(selection)
-                            }
-                            ShareButton()
-                        }
-                        .padding(.leading, 16)
-                        
-                        VStack(alignment: .leading) {
-                            Text("More like this")
-                                .font(.headline)
-                            
-                        }
-                        .foregroundStyle(.netflixWhite)
+                        detailsProductSection
+                        buttonsSection
+                        productsGridSection
                     }
                     .padding(8)
                 }
@@ -78,6 +47,60 @@ struct NetflixMovieDetailsView: View {
         } catch {
             
         }
+    }
+    
+    private var detailsProductSection: some View {
+        NetflixMovieDetailsCell(
+            title: product.title,
+            isNew: true,
+            yearReleased: "2022",
+            seasonCount: 6,
+            hasClosedCaption: true,
+            isTopTen: 2,
+            descriptionText: product.description,
+            castText: "Cast: Bob Odenkirk, Jonathan Banks, Giancarlo Esposito",
+            onPlayTap: {
+                
+            },
+            onDownloadTap: {
+                
+            }
+        )
+    }
+    
+    private var buttonsSection: some View {
+        HStack(spacing: 32) {
+            MyListButton(isMyList: isMyList) {
+                isMyList.toggle()
+            }
+            RateButton { selection in
+                print(selection)
+            }
+            ShareButton()
+        }
+        .padding(.leading, 16)
+    }
+    
+    private var productsGridSection: some View {
+        VStack(alignment: .leading) {
+            Text("More like this")
+                .font(.headline)
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 3),
+                alignment: .center,
+                spacing: 8,
+                pinnedViews: []) {
+                    ForEach(products) { product in
+                        NetflixMovieCell(
+                            imageName: product.firstImage,
+                            title: product.title,
+                            isRecentlyAdded: product.recentlyAdded,
+                            topTenRanking: nil
+                        )
+                    }
+                }
+        }
+        .foregroundStyle(.netflixWhite)
     }
 }
 

@@ -1,10 +1,3 @@
-//
-//  ShareButton.swift
-//  SwiftfulSwiftUiInPractice
-//
-//  Created by Vincent Joy on 30/11/24.
-//
-
 import SwiftUI
 
 struct ShareButton: View {
