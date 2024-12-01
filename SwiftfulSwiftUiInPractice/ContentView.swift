@@ -18,6 +18,11 @@ struct ContentView: View {
                     BumbleHomeView()
                 }
             }
+            Button("Open Netflix") {
+                router.showScreen(.fullScreenCover) { router in
+                    NetflixHomeView()
+                }
+            }
         }
     }
 }

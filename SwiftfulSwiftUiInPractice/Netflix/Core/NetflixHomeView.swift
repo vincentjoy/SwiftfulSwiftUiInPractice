@@ -1,7 +1,10 @@
 import SwiftUI
 import SwiftfulUI
+import SwiftfulRouting
 
 struct NetflixHomeView: View {
+    
+    @Environment(\.router) private var router
     
     @State private var filters = FilterModel.mockArray
     @State private var selectedFilter: FilterModel?
@@ -93,6 +96,9 @@ struct NetflixHomeView: View {
             Text("For Tao")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title)
+                .onTapGesture {
+                    router.dismissScreen()
+                }
             HStack(spacing: 16) {
                 Image(systemName: "tv.badge.wifi")
                     .onTapGesture {
@@ -114,10 +120,10 @@ struct NetflixHomeView: View {
             title: heroProduct.title,
             categories: [heroProduct.category.rawValue.capitalized, heroProduct.brand ?? "Sci-fi"],
             onBackgroundTap: {
-                
+                onProductPressed(heroProduct)
             },
             onPlayTap: {
-                
+                onProductPressed(heroProduct)
             },
             onMyListTap: {
                 
@@ -163,6 +169,9 @@ struct NetflixHomeView: View {
                                     isRecentlyAdded: product.recentlyAdded,
                                     topTenRanking: (rowIndex==1) ? index+1 : nil
                                 )
+                                .onTapGesture {
+                                    onProductPressed(product)
+                                }
                             }
                         }
                         .padding(.horizontal, 16)
@@ -191,8 +200,16 @@ struct NetflixHomeView: View {
             
         }
     }
+    
+    private func onProductPressed(_ product: Product) {
+        router.showScreen(.sheet) { _ in
+            NetflixMovieDetailsView(product: product)
+        }
+    }
 }
 
 #Preview {
-    NetflixHomeView()
+    RouterView { _ in
+        NetflixHomeView()
+    }
 }
